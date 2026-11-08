@@ -11,6 +11,8 @@
 
 
 
+<p align="center"><img src="https://raw.githubusercontent.com/CursedPrograms/Changeling-Studio/main/site/logo.png" alt="Changeling" width="120"></p>
+
 # Changeling Tiresias
 
 **Website:** https://cursedprograms.github.io/Changeling-Tiresias/
@@ -73,6 +75,9 @@ python main.py photo.jpg --to female --strength 1.3 --quality best -o out.png
 | `--keep-hair` | Whole photo, but only the face changes; the photo keeps its own hair. |
 
 ### The window
+
+![Changeling Tiresias's window: the photo, the result, and the controls on the right](assets/window.png)
+
 
 Changeling's look: **Before** and **After** side by side, the controls on the right. You don't have to pick
 a direction: when you open a photo, a gender classifier (FairFace) reads the face and picks the opposite

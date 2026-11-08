@@ -41,6 +41,31 @@ def write_rgb(path, image):
     return ok
 
 
+
+def set_logo(root, here):
+    """The Changeling logo as the window's icon (title bar and taskbar). customtkinter puts its own icon in
+    about 200 ms after the window opens, so this goes in just after it."""
+    ico, png = os.path.join(here, "logo.ico"), os.path.join(here, "logo.png")
+
+    def apply():
+        try:
+            if os.name == "nt" and os.path.exists(ico):
+                root.iconbitmap(ico)
+            elif os.path.exists(png):
+                root._logo_icon = tk.PhotoImage(file=png)
+                root.iconphoto(True, root._logo_icon)
+        except tk.TclError:
+            pass
+    root.after(300, apply)
+
+
+def logo_image(here, size=56):
+    """The logo for the sidebar, or None."""
+    png = os.path.join(here, "logo.png")
+    if not os.path.exists(png):
+        return None
+    return ctk.CTkImage(Image.open(png), size=(size, size))
+
 class Window:
     def __init__(self, make_swapper, device=None):
         self.make_swapper = make_swapper
@@ -56,6 +81,7 @@ class Window:
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme(os.path.join(HERE, "theme.json"))
         self.root = ctk.CTk()
+        set_logo(self.root, HERE)
         self.root.title(NAME)
         self.root.geometry("1280x780")
         self.root.minsize(980, 620)
@@ -89,7 +115,12 @@ class Window:
         side = ctk.CTkFrame(self.root, width=310, corner_radius=12)
         side.grid(row=0, column=1, sticky="ns", padx=(7, 14), pady=14)
         side.grid_propagate(False)
-        ctk.CTkLabel(side, text=NAME, font=ctk.CTkFont(size=22, weight="bold"), text_color=PINK).pack(anchor="w", padx=14, pady=(12, 0))
+        logo = logo_image(HERE)
+        if logo is not None:
+            ctk.CTkLabel(side, image=logo, text="").pack(anchor="w", padx=14, pady=(12, 0))
+        ctk.CTkLabel(side, text="CHANGELING", text_color="gray55",
+                     font=ctk.CTkFont(size=11, weight="bold")).pack(anchor="w", padx=14, pady=(12, 0))
+        ctk.CTkLabel(side, text="Tiresias", font=ctk.CTkFont(size=24, weight="bold"), text_color=PINK).pack(anchor="w", padx=14)
         ctk.CTkLabel(side, text=TAGLINE, text_color="gray60", wraplength=280, justify="left").pack(anchor="w", padx=14)
 
         ctk.CTkButton(side, text="Open photo  (Ctrl+O)", command=self.open).pack(fill="x", padx=14, pady=(16, 4))
