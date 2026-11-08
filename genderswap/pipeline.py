@@ -125,7 +125,7 @@ class GenderSwapper:
         aligned, _ = self._align(image)
         return self.classifier(aligned)
 
-    def swap(self, image, target='auto', strength=1.0, tune_steps=0, progress=None):
+    def swap(self, image, target='auto', strength=1.0, tune_steps=0, progress=None, keep_hair=False):
         """Gender-swap the largest face in `image` (RGB uint8). `target` is 'auto', 'male' or 'female'."""
         aligned, matrix = self._align(image)
 
@@ -150,7 +150,7 @@ class GenderSwapper:
 
         edited_img = to_image(edited)
         return SwapResult(
-            image=paste_back(image, edited_img, matrix),
+            image=paste_back(image, edited_img, matrix, face_only=keep_hair),
             aligned=aligned,
             reconstruction=to_image(recon),
             edited=edited_img,

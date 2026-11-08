@@ -1,6 +1,6 @@
-"""FaceApp-style gender swap.
+"""Changeling Tiresias: FaceApp-style gender swap.
 
-    python main.py                      # launch the web UI
+    python main.py                      # the window
     python main.py photo.jpg            # swap, writes photo_swapped.jpg
     python main.py photo.jpg -o out.jpg --to female --strength 1.2 --quality 0
 """
@@ -39,7 +39,7 @@ def run_cli(args):
     for path in args.images:
         src = Path(path)
         print(f'{src.name}:')
-        result = swapper.swap(read_rgb(src), args.to, args.strength, steps, progress)
+        result = swapper.swap(read_rgb(src), args.to, args.strength, steps, progress, keep_hair=args.keep_hair)
         if steps:
             print()
         out = Path(args.output) if args.output and len(args.images) == 1 else \
@@ -51,66 +51,16 @@ def run_cli(args):
             write_rgb(out.with_name(f'{out.stem}_crops.jpg'), strip)
 
 
-def build_ui(swapper):
-    import gradio as gr
-
-    def swap(image, direction, strength, quality, progress=gr.Progress()):
-        if image is None:
-            raise gr.Error('Upload a photo first.')
-        target = {'Auto': 'auto', 'To female': 'female', 'To male': 'male'}[direction]
-        steps = QUALITY_STEPS[quality.lower()]
-
-        def report(i, total, _loss):
-            progress(i / total, desc='Learning your face')
-
-        try:
-            result = swapper.swap(image, target, strength, steps, report)
-        except ValueError as e:
-            raise gr.Error(str(e))
-        return result.image, result.edited, f'Detected {result.detected}, swapped to {result.target}.'
-
-    def detect(image):
-        """On upload: detect the gender and preselect the opposite direction (still changeable)."""
-        if image is None:
-            return gr.update(value='Auto'), ''
-        try:
-            gender, confidence = swapper.detect_gender(image)
-        except ValueError as e:
-            return gr.update(value='Auto'), f'{e}'
-        choice = 'To female' if gender == 'male' else 'To male'
-        return gr.update(value=choice), f'Detected **{gender}** ({confidence:.0%}), so **{choice.lower()}** is selected. Change it above if that is wrong.'
-
-    with gr.Blocks(title='Gender Swap') as demo:
-        gr.Markdown('# Gender Swap\nUpload a photo with a clearly visible face.')
-        with gr.Row():
-            with gr.Column():
-                inp = gr.Image(label='Photo', type='numpy')
-                direction = gr.Radio(['Auto', 'To female', 'To male'], value='Auto', label='Swap',
-                                     info='Set automatically from the detected gender when you upload a photo.')
-                detected = gr.Markdown()
-                strength = gr.Slider(0.25, 2.0, value=1.0, step=0.05, label='Strength')
-                quality = gr.Radio(['Fast', 'Balanced', 'Best'], value='Balanced', label='Quality',
-                                   info='Balanced and Best fine-tune the model on your face so it still looks like you.')
-                btn = gr.Button('Swap', variant='primary')
-            with gr.Column():
-                out = gr.Image(label='Result', format='png')
-                face = gr.Image(label='Face close-up', format='png')
-                status = gr.Markdown()
-        inp.change(detect, inp, [direction, detected], api_name='detect')
-        btn.click(swap, [inp, direction, strength, quality], [out, face, status], api_name='swap')
-
-    return demo
-
-
 def run_ui(args):
     from genderswap import GenderSwapper
+    from window import Window
 
-    build_ui(GenderSwapper(args.device)).queue().launch(inbrowser=True)
+    Window(GenderSwapper, args.device).run()
 
 
 def main():
-    parser = argparse.ArgumentParser(description='FaceApp-style gender swap (StyleGAN2 + e4e + PTI).')
-    parser.add_argument('images', nargs='*', help='Input photo(s). Omit to launch the web UI.')
+    parser = argparse.ArgumentParser(description='Changeling Tiresias: FaceApp-style gender swap (StyleGAN2 + e4e + PTI).')
+    parser.add_argument('images', nargs='*', help='Input photo(s). Omit to open the window.')
     parser.add_argument('-o', '--output', help='Output path (single input only).')
     parser.add_argument('--to', choices=['auto', 'female', 'male'], default='auto')
     parser.add_argument('--strength', type=float, default=1.0)
@@ -118,6 +68,7 @@ def main():
                         help='fast = encoder only; balanced/best = also fine-tune on the face (keeps identity).')
     parser.add_argument('--steps', type=int, help='Override the number of fine-tuning steps.')
     parser.add_argument('--save-crops', action='store_true', help='Also save aligned input / reconstruction / edit.')
+    parser.add_argument('--keep-hair', action='store_true', help='Only the face changes; the photo keeps its own hair.')
     parser.add_argument('--device', help='cuda or cpu (default: cuda if available).')
     parser.add_argument('--download-models', action='store_true', help='Download any missing models and exit.')
     args = parser.parse_args()

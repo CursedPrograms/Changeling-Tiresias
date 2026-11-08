@@ -37,7 +37,7 @@ if errorlevel 1 (
 rem 3) Download any missing models.
 "%VENV_PY%" main.py --download-models || goto :error
 
-rem 4) Run. With no arguments this opens the web UI.
+rem 4) Run. With no arguments this opens the window.
 "%VENV_PY%" main.py %*
 set "EXIT_CODE=%ERRORLEVEL%"
 goto :end

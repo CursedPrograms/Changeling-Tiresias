@@ -77,8 +77,10 @@ class FaceAligner:
         return crop, matrix
 
 
-def paste_back(original, crop, matrix, feather=0.08):
-    """Blend an edited aligned crop back into the original photo with a soft-edged mask."""
+def paste_back(original, crop, matrix, feather=0.08, face_only=False):
+    """Blend an edited aligned crop back into the original photo with a soft-edged mask.
+    face_only: only the face itself (a soft oval from brows to chin), so the photo's own hair, ears
+    and neck stay: no half-changed hair where the crop's edge cuts through long hair."""
     h, w = original.shape[:2]
     size = crop.shape[0]
 
@@ -86,6 +88,11 @@ def paste_back(original, crop, matrix, feather=0.08):
     ramp = np.clip(np.minimum(np.arange(size), size - 1 - np.arange(size)) / (feather * size), 0, 1)
     ramp = ramp * ramp * (3 - 2 * ramp)  # smoothstep
     mask = np.outer(ramp, ramp).astype(np.float32)
+    if face_only:
+        # FFHQ alignment puts the face in the same place every time: an oval round it
+        oval = np.zeros((size, size), np.float32)
+        cv2.ellipse(oval, (size // 2, int(size * 0.58)), (int(size * 0.235), int(size * 0.34)), 0, 0, 360, 1.0, -1)
+        mask *= cv2.GaussianBlur(oval, (0, 0), size * 0.03)
 
     flags = cv2.INTER_LINEAR | cv2.WARP_INVERSE_MAP
     warped = cv2.warpAffine(crop, matrix, (w, h), flags=flags, borderMode=cv2.BORDER_CONSTANT)

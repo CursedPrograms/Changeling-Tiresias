@@ -41,6 +41,6 @@ if ($needInstall) {
 # 3) Download any missing models.
 Invoke-Checked $VenvPy main.py --download-models
 
-# 4) Run. With no arguments this opens the web UI.
+# 4) Run. With no arguments this opens the window.
 & $VenvPy main.py @args
 exit $LASTEXITCODE

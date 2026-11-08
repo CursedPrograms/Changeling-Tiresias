@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Changeling Tiresias: gender swap for photos</title>
+<meta name="description" content="Changeling Tiresias: FaceApp-style gender swap for photos, with StyleGAN2, e4e and pivotal tuning so the result still looks like you. Part of the Changeling family.">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="Changeling Tiresias: gender swap for photos">
+<meta property="og:description" content="The other you: a face, swapped to the other gender.">
+<meta property="og:image" content="assets/tiresias_samples.jpg">
+<link rel="icon" href="site/icon.svg">
+<link rel="stylesheet" href="site/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Changeling</div>
+    <h1>Tiresias</h1>
+    <p class="tagline">The other you: a face, swapped to the other gender</p>
+    <p class="lede">Open a photo: Tiresias reads the face, picks the other gender for you, learns the face so the
+      result still looks like you, and swaps it. Named after the seer of Greek myth who lived seven years as a
+      woman.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/CursedPrograms/Changeling-Tiresias">View on GitHub</a>
+      <a class="btn" href="#use">Use it</a>
+      <a class="btn" href="#family">The Changeling family</a>
+    </div>
+    <div class="tags">
+      <span class="tag">StyleGAN2</span><span class="tag">e4e</span><span class="tag">Pivotal tuning</span>
+      <span class="tag">FairFace</span><span class="tag">CUDA</span><span class="tag">Python</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="samples">
+    <h2>What it looks like</h2>
+    <p>Each pair: the photo and its swap, at Balanced quality. Two keep their own hair (Keep the hair), so
+      long hair stays whole. Every face is an AI-generated person who doesn't exist. Click to enlarge.</p>
+    <figure class="sheet"><img id="sheet" src="assets/tiresias_samples.jpg" alt="Six photos, each next to its gender swap" width="1692" height="1284" loading="lazy"></figure>
+  </section>
+
+  <section id="use">
+    <h2>Use it</h2>
+    <ol class="steps">
+      <li>Python 3.9 - 3.12; an NVIDIA GPU (4 GB is enough).</li>
+      <li>Start <code>run.bat</code> (or <code>run.ps1</code>, <code>run.sh</code>). The first run sets itself up and fetches the models (about 1.3 GB).</li>
+      <li><strong>Open photo</strong>, check the direction it picked, press <strong>Swap</strong>, then <strong>Save</strong>.</li>
+    </ol>
+    <div class="grid two">
+      <div class="card">
+        <h3>The window</h3>
+        <table>
+          <tr><td>Swap</td><td>Auto, To female, To male (picked for you from the face)</td></tr>
+          <tr><td>Strength</td><td>how far the swap goes</td></tr>
+          <tr><td>Keep the hair</td><td>only the face changes</td></tr>
+          <tr><td>Quality</td><td>Fast (seconds), Balanced and Best (learn your face first)</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>Without the window</h3>
+        <p><code>run.bat photo.jpg --to female --quality best --keep-hair</code></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="family">
+    <h2>The Changeling family</h2>
+    <p>All of them together: <a href="https://github.com/CursedPrograms/Changeling-Studio">Changeling Studio</a>.</p>
+    <div class="grid">
+      <div class="card"><h3><a href="https://github.com/CursedPrograms/Changeling-CopyCat">CopyCat</a></h3><p>One face onto any photo or video.</p></div>
+      <div class="card"><h3><a href="https://github.com/CursedPrograms/Changeling-CopyCat-Realtime">CopyCat Realtime</a></h3><p>The face swap, live on the webcam, with voice.</p></div>
+      <div class="card"><h3>Tiresias</h3><p>Gender swap for photos.</p></div>
+      <div class="card"><h3><a href="https://github.com/CursedPrograms/Changeling-Chronos">Chronos</a></h3><p>Age a face forwards or backwards.</p></div>
+      <div class="card"><h3><a href="https://github.com/CursedPrograms/Changeling-Cosmetics">Cosmetics</a></h3><p>Makeup, hair colour and length, beards.</p></div>
+    </div>
+  </section>
+</main>
+
+<div id="lightbox" class="lightbox" hidden><img alt=""></div>
+
+<footer id="site-footer">&copy; Cursed Entertainment 2026</footer>
+<script src="site/site.js"></script>
+<script src="https://cursedprograms.github.io/RIFT/site/footer.js"></script>
+</body>
+</html>
