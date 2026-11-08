@@ -24,6 +24,8 @@ GITHUB = "https://github.com/CursedPrograms/Changeling-Tiresias"
 KOFI = "https://ko-fi.com/cursedentertainment"
 PINK = "#e0408a"
 QUALITY_STEPS = {"Fast": 0, "Balanced": 100, "Best": 250}
+# what the result is: the swapped square on its own (default), or pasted back into the photo
+RESULTS = {"Face frame": ("frame", False), "Whole photo": ("photo", False), "Photo, own hair": ("photo", True)}
 IMAGE_TYPES = [("Pictures", "*.png *.jpg *.jpeg *.webp *.bmp *.jfif"), ("All files", "*.*")]
 
 
@@ -99,8 +101,13 @@ class Window:
         self.direction.set("Auto")
         self.direction.pack(fill="x", padx=14, pady=4)
         self.strength = self._slider(side, "Strength", 25, 200, 100)
-        self.keep_hair = ctk.BooleanVar(value=False)
-        ctk.CTkSwitch(side, text="Keep the hair (only the face changes)", variable=self.keep_hair).pack(anchor="w", padx=14, pady=4)
+        self._section(side, "Result")
+        self.result_mode = ctk.CTkSegmentedButton(side, values=list(RESULTS))
+        self.result_mode.set("Face frame")
+        self.result_mode.pack(fill="x", padx=14, pady=4)
+        ctk.CTkLabel(side, text="Face frame: the swapped square, new hair and all. Whole photo: pasted back "
+                     "(long hair outside the square stays). Own hair: only the face changes.",
+                     text_color="gray55", wraplength=280, justify="left").pack(anchor="w", padx=14)
 
         self._section(side, "Quality")
         self.quality = ctk.CTkSegmentedButton(side, values=list(QUALITY_STEPS))
@@ -260,12 +267,13 @@ class Window:
         target = {"Auto": "auto", "To female": "female", "To male": "male"}[self.direction.get()]
         strength = self.strength.get() / 100
         steps = QUALITY_STEPS[self.quality.get()]
-        image, keep_hair = self.photo, self.keep_hair.get()
+        image = self.photo
+        output, keep_hair = RESULTS[self.result_mode.get()]
 
         def work():
             with self.lock:
                 self.state["stage"] = "Swapping"
-            self.result = self.swapper.swap(image, target, strength, steps, self._step, keep_hair=keep_hair)
+            self.result = self.swapper.swap(image, target, strength, steps, self._step, keep_hair=keep_hair, output=output)
             return f"Done: {self.result.detected} to {self.result.target}."
         self.result = None
         self._run(work, "Reading the face")

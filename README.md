@@ -33,8 +33,10 @@ open-source approach that gives the same kind of result: a StyleGAN2 face genera
 2. **Invert** the crop into StyleGAN2's W+ latent space with the [e4e](https://github.com/omertov/encoder4editing) encoder.
 3. **Pivotal Tuning** ([PTI](https://github.com/danielroich/PTI)): briefly fine-tune the generator on your face so the result still looks like you (skipped in `fast` mode).
 4. **Edit**: move the latent along a learned gender direction ([source](https://github.com/a312863063/generators-with-stylegan2)).
-5. **Paste back** the swapped face into the original photo with a feathered blend; with **Keep the hair**
-   only the face itself goes back (a soft oval), so long hair stays whole instead of half-changed.
+5. **The result** is the swapped face frame itself (the default: its new hair is whole). **Whole photo**
+   pastes it back into the original with a feathered blend (long hair outside the frame stays as it was;
+   Changeling Studio will clean that up with inpainting), and **Photo, own hair** pastes back only the face
+   itself (a soft oval), so the photo keeps its own hair.
 
 ## Setup
 
@@ -67,14 +69,15 @@ python main.py photo.jpg --to female --strength 1.3 --quality best -o out.png
 | `--strength` | How far to push the edit (1.0 = full swap). |
 | `--quality fast\|balanced\|best` | `fast` = encoder only (a few seconds); `balanced`/`best` fine-tune on your face for 100/250 steps (~1 / ~3 min on a GTX 1050 Ti). |
 | `--save-crops` | Also save the aligned input, reconstruction and edit side by side. |
-| `--keep-hair` | Only the face changes; the photo keeps its own hair (best for long hair). |
+| `--whole-photo` | Paste the swap back into the whole photo (default: just the swapped face frame). |
+| `--keep-hair` | Whole photo, but only the face changes; the photo keeps its own hair. |
 
 ### The window
 
 Changeling's look: **Before** and **After** side by side, the controls on the right. You don't have to pick
 a direction: when you open a photo, a gender classifier (FairFace) reads the face and picks the opposite
 ("Looks **male** (99%), so **to female** is picked"); you can still change it. **Swap** runs on its own
-thread with a completion bar while it learns your face, **Keep the hair** changes only the face, **Save** writes the result, **Close-up** shows
+thread with a completion bar while it learns your face, **Result** picks the face frame, the whole photo, or the photo with its own hair, **Save** writes the result, **Close-up** shows
 the aligned face, the reconstruction and the result side by side.
 
 | Key | Does |

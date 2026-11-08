@@ -39,7 +39,8 @@ def run_cli(args):
     for path in args.images:
         src = Path(path)
         print(f'{src.name}:')
-        result = swapper.swap(read_rgb(src), args.to, args.strength, steps, progress, keep_hair=args.keep_hair)
+        output = 'photo' if (args.whole_photo or args.keep_hair) else 'frame'
+        result = swapper.swap(read_rgb(src), args.to, args.strength, steps, progress, keep_hair=args.keep_hair, output=output)
         if steps:
             print()
         out = Path(args.output) if args.output and len(args.images) == 1 else \
@@ -68,7 +69,10 @@ def main():
                         help='fast = encoder only; balanced/best = also fine-tune on the face (keeps identity).')
     parser.add_argument('--steps', type=int, help='Override the number of fine-tuning steps.')
     parser.add_argument('--save-crops', action='store_true', help='Also save aligned input / reconstruction / edit.')
-    parser.add_argument('--keep-hair', action='store_true', help='Only the face changes; the photo keeps its own hair.')
+    parser.add_argument('--whole-photo', action='store_true',
+                        help='Paste the swap back into the whole photo (default: just the swapped face frame).')
+    parser.add_argument('--keep-hair', action='store_true',
+                        help='Whole photo, but only the face changes; the photo keeps its own hair.')
     parser.add_argument('--device', help='cuda or cpu (default: cuda if available).')
     parser.add_argument('--download-models', action='store_true', help='Download any missing models and exit.')
     args = parser.parse_args()

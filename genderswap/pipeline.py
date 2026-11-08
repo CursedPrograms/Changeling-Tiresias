@@ -125,8 +125,15 @@ class GenderSwapper:
         aligned, _ = self._align(image)
         return self.classifier(aligned)
 
-    def swap(self, image, target='auto', strength=1.0, tune_steps=0, progress=None, keep_hair=False):
-        """Gender-swap the largest face in `image` (RGB uint8). `target` is 'auto', 'male' or 'female'."""
+    def swap(self, image, target='auto', strength=1.0, tune_steps=0, progress=None, keep_hair=False, output='frame'):
+        """Gender-swap the largest face in `image` (RGB uint8). `target` is 'auto', 'male' or 'female'.
+
+        output: what `.image` is
+            'frame'  the edited square on its own (the default: the new hair is whole, nothing of the old
+                     hair is left outside it)
+            'photo'  pasted back into the whole photo (long hair outside the square stays as it was:
+                     Changeling Studio will clean that up with inpainting)
+            'photo' with keep_hair: only the face pasted back, the photo keeps its own hair"""
         aligned, matrix = self._align(image)
 
         w = self.invert(aligned)
@@ -150,7 +157,7 @@ class GenderSwapper:
 
         edited_img = to_image(edited)
         return SwapResult(
-            image=paste_back(image, edited_img, matrix, face_only=keep_hair),
+            image=edited_img if output == 'frame' else paste_back(image, edited_img, matrix, face_only=keep_hair),
             aligned=aligned,
             reconstruction=to_image(recon),
             edited=edited_img,
