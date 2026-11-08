@@ -15,7 +15,7 @@
 
 **Website:** https://cursedprograms.github.io/Changeling-Tiresias/
 
-![Six photos, each next to its gender swap: three men to women, three women to men](assets/tiresias_samples.jpg)
+![Six photos, each next to its gender-swapped face frame: three men to women, three women to men](assets/tiresias_samples.jpg)
 
 *Part of the Changeling family, all together in [Changeling Studio](https://github.com/CursedPrograms/Changeling-Studio):
 [CopyCat](https://github.com/CursedPrograms/Changeling-CopyCat) (face swap, photos and video) ·
