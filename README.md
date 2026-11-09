@@ -17,6 +17,8 @@
 
 **Website:** https://cursedprograms.github.io/Changeling-Tiresias/
 
+**The name.** In Greek myth Tiresias, the blind prophet of Thebes, came upon two snakes mating and struck them with his staff, and was turned into a woman. Seven years later he found the snakes again, struck them again, and became a man. He had lived both lives, so when Zeus and Hera argued over which of them enjoyed love more, they asked him.
+
 ![Six photos, each next to its gender-swapped face frame: three men to women, three women to men](assets/tiresias_samples.jpg)
 
 *Part of the Changeling family, all together in [Changeling Studio](https://github.com/CursedPrograms/Changeling-Studio):
