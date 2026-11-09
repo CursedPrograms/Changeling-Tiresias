@@ -20,8 +20,8 @@
 ![Six photos, each next to its gender-swapped face frame: three men to women, three women to men](assets/tiresias_samples.jpg)
 
 *Part of the Changeling family, all together in [Changeling Studio](https://github.com/CursedPrograms/Changeling-Studio):
-[CopyCat](https://github.com/CursedPrograms/Changeling-CopyCat) ·
-[CopyCat Realtime](https://github.com/CursedPrograms/Changeling-CopyCat-Realtime) ·
+[Simia](https://github.com/CursedPrograms/Changeling-Simia) ·
+[Simia Realtime](https://github.com/CursedPrograms/Changeling-Simia-Realtime) ·
 **Tiresias** (gender) ·
 [Chronos](https://github.com/CursedPrograms/Changeling-Chronos) (age) ·
 [Natio](https://github.com/CursedPrograms/Changeling-Natio) (where in the world) ·
