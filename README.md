@@ -25,13 +25,13 @@
 **Tiresias** (gender) ·
 [Chronos](https://github.com/CursedPrograms/Changeling-Chronos) (age) ·
 [Natio](https://github.com/CursedPrograms/Changeling-Natio) (where in the world) ·
-[Cosmetics](https://github.com/CursedPrograms/Changeling-Cosmetics) (makeup, hair, beards) ·
+[Cosmeta](https://github.com/CursedPrograms/Changeling-Cosmeta) (makeup, hair, beards) ·
 [Echo](https://github.com/CursedPrograms/Changeling-Echo) (voices) ·
 [Tonsor](https://github.com/CursedPrograms/Changeling-Tonsor) (hairstyles) ·
 realtime: [Tiresias](https://github.com/CursedPrograms/Changeling-Tiresias-Realtime) ·
 [Chronos](https://github.com/CursedPrograms/Changeling-Chronos-Realtime) ·
 [Natio](https://github.com/CursedPrograms/Changeling-Natio-Realtime) ·
-[Cosmetics](https://github.com/CursedPrograms/Changeling-Cosmetics-Realtime).*
+[Cosmeta](https://github.com/CursedPrograms/Changeling-Cosmeta-Realtime).*
 
 Named after Tiresias, the seer of Greek myth who lived seven years as a woman. Every face above is an
 AI-generated person who doesn't exist; use it on yourself, on generated people, or on people who agreed.
