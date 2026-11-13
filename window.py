@@ -1,4 +1,4 @@
-"""window.py - Changeling Tiresias's window, in Changeling's look (customtkinter, the Cursed pink).
+"""window.py - Changeling Tiresias's window, in Changeling's look (customtkinter, the Atelier blue).
 
 Open a photo: the face is found and its gender read, and the opposite is picked for you (still yours to
 change). Press Swap: the work runs on its own thread, with a completion bar while it learns your face
@@ -23,7 +23,7 @@ NAME = "Changeling Tiresias"
 TAGLINE = "the other you: a face, swapped to the other gender"
 GITHUB = "https://github.com/CursedPrograms/Changeling-Tiresias"
 KOFI = "https://ko-fi.com/cursedentertainment"
-PINK = "#e0408a"
+PINK = "#007bb7"
 
 BLUE, BLUE_HOVER = "#007ab7", "#005184"     # the Cursed site's blue: the important buttons, and "male"
 
@@ -185,7 +185,7 @@ class Window:
         links = ctk.CTkFrame(foot, fg_color="transparent")
         links.pack(anchor="w")
         for text, url in (("GitHub", GITHUB), ("Ko-fi", KOFI)):
-            l = ctk.CTkLabel(links, text=text, text_color=("#c2186b", "#f29cc0"), cursor="hand2")
+            l = ctk.CTkLabel(links, text=text, text_color=("#005184", "#34a9e3"), cursor="hand2")
             l.pack(side="left", padx=(0, 14))
             l.bind("<Button-1>", lambda e, u=url: webbrowser.open(u))
         ctk.CTkLabel(foot, text="© Cursed Entertainment 2026", text_color="gray45").pack(anchor="w")
